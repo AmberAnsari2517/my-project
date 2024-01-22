@@ -8,10 +8,11 @@ import { Qnoo8 } from './Qno8'
 const Task2 = () => {
   return (
     <div>
-      <Qno5/>
+     <h1>About</h1>
+      {/* <Qno5/>
       <Qno6/>
       <Qno7/>
-      <Qnoo8/>
+      <Qnoo8/> */}
     </div>
   )
 }

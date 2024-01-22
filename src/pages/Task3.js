@@ -7,9 +7,10 @@ import { Qno12 } from './Qno12'
 export const Task3 = () => {
   return (
     <>
-      <Qno9 />
+    <h1>Contect</h1>
+      {/* <Qno9 />
       <Qn011 />
-      <Qno12 />
+      <Qno12 /> */}
     </>
 
 
