@@ -5,7 +5,8 @@ export const Students = () => {
   return (
     <>
      {student.map((data)=>
-     <Link to={data}><h1>{data}</h1></Link>
+     <Link to={data}>
+      <h1>{data}</h1></Link>
      )}
     </>
    

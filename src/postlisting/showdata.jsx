@@ -1,23 +1,24 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
+import { Mydata } from './listdata';
 
 export const Datashow = () => {
-  const { state } = useLocation()
-  console.log('location',useLocation())
-  console.log(state)
-
+ let {id} = useParams();
+ const postData= Mydata.find(postData => String (postData.id) === id)
   return (
     <div>
+       <div key={id} >
       <div className="container card ">
-       <strong> {state.key.title}</strong>
-        <h2 >{state.key.head}</h2>
-        <p>{state.key. body}</p>
-        <p>{state.key.id}</p>
-        <p>{state.key2}</p>
+        <h3>{postData.title}</h3>
+        <p>{postData.body}</p>
+       
+        </div>
 
         {/*  <p className="card-text">{state.userId}</p> */}
       </div>
+     
     </div>
+    
 
 
   );

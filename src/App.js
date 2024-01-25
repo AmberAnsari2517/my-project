@@ -3,28 +3,32 @@ import React from 'react';
 import './App.css';
 import { Route } from "react-router-dom"
 import { Routes } from 'react-router-dom';
-import { Nav } from './postlisting/nav';
-import { Banneer } from './postlisting/banner';
 import { Datashow } from './postlisting/showdata';
-import { Readmore } from './postlisting/readmore';
-import { Mydata } from './postlisting/listdata';
-
-
+import { Banneer } from './postlisting/banner';
+import { Nav } from './postlisting/Navbar';
 
 
 
 function App() {
   return (
+
+
     <div>
-
-      <Nav />
+      {/* <MyRouters/> */}
+    <Nav/> 
+      
       <Routes>
-        <Route path='/' element={<Banneer />} />
-        <Route path="/Datashow/:val" element={<Datashow />} />
+
+
+        <Route path="/" element={<Banneer />} />
+        <Route path='/ReadMore/:id' element={<Datashow />} />
+
       </Routes>
-
-
     </div>
+
+
+
+
 
   );
 }

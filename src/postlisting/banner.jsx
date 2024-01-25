@@ -1,6 +1,6 @@
 import React from 'react'
 import { rightimg } from '../assets'
-import { Mydata } from './listdata'
+import MyCard from './card'
 
 export const Banneer = () => {
 
@@ -17,7 +17,7 @@ export const Banneer = () => {
           <img src={rightimg} style={{ height: 300, width: 500 }} />
         </div>
       </div>
-      <Mydata />
+    <MyCard/>
 
     </div>
   )

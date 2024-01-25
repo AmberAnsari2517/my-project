@@ -12,14 +12,14 @@ export const Nav = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <li className="nav-link active me-3" aria-current="page" href="#">Work</li>
+                <li className="nav-link active me-3" aria-current="page" href="/">Work</li>
 
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Services</a>
+                <a className="nav-link" href="/">Services</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">About</a>
+                <a className="nav-link" href="/">About</a>
               </li>
 
             </ul>
@@ -31,7 +31,9 @@ export const Nav = () => {
         </div>
       </nav>
       {/* nav bar end*/}
+    
     </div>
+
 
 
   )
