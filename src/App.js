@@ -4,8 +4,9 @@ import './App.css';
 import { Route } from "react-router-dom"
 import { Routes } from 'react-router-dom';
 import { Datashow } from './postlisting/showdata';
-import { Banneer } from './postlisting/banner';
+import { Mybaner } from './postlisting/banner';
 import { Nav } from './postlisting/Navbar';
+import { Fetch } from './postlisting/Fetch';
 
 
 
@@ -20,10 +21,11 @@ function App() {
       <Routes>
 
 
-        <Route path="/" element={<Banneer />} />
+        <Route path ='/' element ={<Mybaner/>}/>
         <Route path='/ReadMore/:id' element={<Datashow />} />
 
       </Routes>
+      {/* <Fetch/> */}
     </div>
 
 
