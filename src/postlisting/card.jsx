@@ -3,6 +3,8 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Mycofirmation } from "./cofirmation";
+import { MyForm } from './form';
+
 
 const MyCard = () => {
     //withou axious
@@ -35,6 +37,8 @@ const MyCard = () => {
      }
     return (
         <>
+        <MyForm/>
+       
             {post.map((index) => {
                 return (
                     <Mycofirmation index={index} post={post} setPost={setPost} />

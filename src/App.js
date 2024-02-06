@@ -7,6 +7,7 @@ import { Datashow } from './postlisting/showdata';
 import { Mybaner } from './postlisting/banner';
 import { Nav } from './postlisting/Navbar';
 import { Fetch } from './postlisting/Fetch';
+import {  Myeditpost } from './postlisting/Editpost';
 
 
 
@@ -23,6 +24,7 @@ function App() {
 
         <Route path ='/' element ={<Mybaner/>}/>
         <Route path='/ReadMore/:id' element={<Datashow />} />
+        <Route path ='/editpost/:id' element={<Myeditpost/>} />
 
       </Routes>
       {/* <Fetch/> */}

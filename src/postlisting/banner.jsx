@@ -2,7 +2,7 @@ import React from 'react'
 import { rightimg } from '../assets'
 import { Mydata } from './listdata'
 import MyCard from './card'
-export const Mybaner= () => {
+export const Mybaner = () => {
 
   return (
     <div>

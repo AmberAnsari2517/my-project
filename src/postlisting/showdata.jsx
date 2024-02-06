@@ -5,12 +5,11 @@ import axios from 'axios';
 
 export const Datashow = () => {
   const [showdata, setshowdata] = useState([]);
-  let{id} =useParams();
+  let { id } = useParams();
   // const param=useParams()
   // console.log(param,"params")
   useEffect(() => {
-
-    axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+   axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then((response) => {
         setshowdata(response.data);
       })
@@ -19,23 +18,23 @@ export const Datashow = () => {
       });
   }, []);
   // withou api calling show daata
-//  let {id} = useParams();
-//  const postData= Mydata.find(postData => String (postData.id) === id)
+  //  let {id} = useParams();
+  //  const postData= Mydata.find(postData => String (postData.id) === id)
   return (
     <div>
-       {/* <div key={id} > */}
+      {/* <div key={id} > */}
       <div className="container card ">
         <h3>{showdata.title}</h3>
         <p>{showdata.body}</p>
         <p>{showdata.id}</p>
-       
-        </div>
 
-        {/*  <p className="card-text">{state.userId}</p> */}
       </div>
-     
-  
-    
+
+      {/*  <p className="card-text">{state.userId}</p> */}
+    </div>
+
+
+
 
 
   );
