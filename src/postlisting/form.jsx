@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 export const MyForm = () => {
 
-  const [errorMsg, seterrorMsg] = ('')
+  const [errorMsg, seterrorMsg] = useState('')
   const [formdata, setformData] = useState({ title: '', body: '' });
 
   const handlechange = (e) => {
@@ -12,23 +12,28 @@ export const MyForm = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-   // validation start
-    if (formdata.title.length > 3) {
+    // validation start
+    if (formdata.title.length === 0) {
+      seterrorMsg('title cannot b empty')
+      return;
+    }
+    else if (formdata.title.length <= 3) {
       seterrorMsg('title add more then three character')
       return;
     }
+
 
     else if (formdata.body.length === 0) {
       seterrorMsg('boday cannot b empty')
       return;
     }
-    else if (formdata.body.length <= 500) {
+    else if (formdata.body.length >= 500) {
       seterrorMsg('maximum lenth 500')
       return;
     }
     else {
-      seterrorMsg('sumit scuses')
-     
+      seterrorMsg('submit scuses')
+
     }
     //validation end
 
@@ -50,9 +55,13 @@ export const MyForm = () => {
     <div className='container card'>
       <strong>Add list form Api</strong>
       <form onSubmit={handleSubmit}>
-        Title:  <input type='text' onChange={handlechange} name='title' /><br />
+        Title:  <input
+          className='form-control'
+
+          type='text' onChange={handlechange} name='title' /><br />
         <strong>Body</strong>
         <textarea
+          className='form-control'
           onChange={handlechange} name='body'
 
         />

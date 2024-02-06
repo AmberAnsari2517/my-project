@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Mycofirmation } from "./cofirmation";
 import { MyForm } from './form';
+import { Link } from 'react-router-dom';
 
 
 const MyCard = () => {
@@ -13,7 +14,7 @@ const MyCard = () => {
     const [loading , setLoding] = useState(true)
     const [post, setPost] = useState([]);
     useEffect(() => {
-        axios.get("https://jsonplaceholder.typicode.com/posts")
+        axios.get(`https://jsonplaceholder.typicode.com/posts`)
             .then((response) => {
                 setPost(response.data);
                 setLoding(false)
@@ -44,7 +45,9 @@ const MyCard = () => {
                     <Mycofirmation index={index} post={post} setPost={setPost} />
                 )
             })}
+
         </>
+        
     )
 
 
@@ -92,6 +95,8 @@ const MyCard = () => {
 
     //  </>
     //  )
+    
+
 
 }
 

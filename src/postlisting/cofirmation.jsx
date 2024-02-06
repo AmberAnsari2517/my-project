@@ -52,7 +52,7 @@ export const Mycofirmation = ({ index, post, setPost }) => {
                         <button className="btn-success" onClick={handleCancel}>No</button>
 
                     </div>
-                )}
+                )} 
 
 
 
