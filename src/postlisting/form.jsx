@@ -1,7 +1,12 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 export const MyForm = () => {
+  const navigate = useNavigate()
+  const handleBack = ()=>{
+    navigate(-1)
+  }
 
   const [errorMsg, seterrorMsg] = useState('')
   const [formdata, setformData] = useState({ title: '', body: '' });
@@ -28,7 +33,7 @@ export const MyForm = () => {
       return;
     }
     else if (formdata.body.length >= 500) {
-      seterrorMsg('maximum lenth 500')
+      seterrorMsg('In body write words maximum 500')
       return;
     }
     else {
@@ -36,9 +41,6 @@ export const MyForm = () => {
 
     }
     //validation end
-
-
-
 
     console.log(formdata)
     axios.post(`https://jsonplaceholder.typicode.com/posts `, { formdata })
@@ -52,6 +54,13 @@ export const MyForm = () => {
   }
 
   return (
+    <div className='container'>
+        <div style={{marginBottom:10}}>
+      <button className='btn btn-success' onClick={handleBack}>
+      <i class="fa-solid fa-arrow-left" ></i>
+      </button>
+      </div>
+   
     <div className='container card'>
       <strong>Add list form Api</strong>
       <form onSubmit={handleSubmit}>
@@ -74,6 +83,7 @@ export const MyForm = () => {
 
       </form>
 
+    </div>
     </div>
   )
 }

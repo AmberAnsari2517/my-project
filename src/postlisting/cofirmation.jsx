@@ -38,6 +38,7 @@ export const Mycofirmation = ({ index, post, setPost }) => {
                 <strong>{index.head}</strong>
                 <p>{index.body}</p>
                 <p>{index.id}</p>
+                <p>{index.userId}</p>
                 <p><Link to={`/ReadMore/${index.id}`}>Read more</Link></p>
                 
                 <div style={{ width: 200, marginRight: 20 }}>

@@ -2,14 +2,20 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const Datashow = () => {
   const [showdata, setshowdata] = useState([]);
   let { id } = useParams();
+  const navigate=useNavigate()
+  const handleBack = ()=>{
+    navigate(-1)
+
+  }
   // const param=useParams()
   // console.log(param,"params")
   useEffect(() => {
-   axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then((response) => {
         setshowdata(response.data);
       })
@@ -21,12 +27,21 @@ export const Datashow = () => {
   //  let {id} = useParams();
   //  const postData= Mydata.find(postData => String (postData.id) === id)
   return (
-    <div>
+    <div className='container fluid'>
+      <div style={{marginBottom:10}}>
+     
+      <button className='btn btn-success' onClick={handleBack}>
+      <i class="fa-solid fa-arrow-left" ></i>
+      </button>
+      </div>
+      
       {/* <div key={id} > */}
       <div className="container card ">
         <h3>{showdata.title}</h3>
         <p>{showdata.body}</p>
         <p>{showdata.id}</p>
+        
+        <p>{showdata.userId}</p>
 
       </div>
 

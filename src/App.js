@@ -25,7 +25,7 @@ function App() {
     
         <Route path ='/' element ={<Mybaner/>}/>
         <Route path='/ReadMore/:id' element={<Datashow />} />
-        <Route path='/  /Addpost/:id' element={<MyForm />} />
+        <Route path='/AddList/:id' element={<MyForm />} />
         <Route path ='/editpost/:id' element={<Myeditpost/>} />
 
       </Routes>

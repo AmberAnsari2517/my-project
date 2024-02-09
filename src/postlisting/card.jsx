@@ -38,7 +38,8 @@ const MyCard = () => {
      }
     return (
         <>
-        <MyForm/>
+        <p className='container fluid'><Link to={`/AddList/id`}>Add post</Link></p>
+                
        
             {post.map((index) => {
                 return (
