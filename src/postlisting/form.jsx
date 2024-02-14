@@ -8,9 +8,9 @@ export const MyForm = () => {
     navigate(-1)
   }
   const [loading, setLoding] = useState()
-
   const [errorMsg, seterrorMsg] = useState('')
   const [formdata, setformData] = useState({ title: '', body: '', userId: " " });
+  const [submitdata, setSubmitdata] =useState(null)
 
   const handlechange = (e) => {
     setformData({ ...formdata, [e.target.name]: e.target.value })
@@ -37,25 +37,25 @@ export const MyForm = () => {
       setLoding(false)
       return;
     }
+    else if (formdata.body.length <  3) {
+      seterrorMsg('In body write words minimum 3')
+      setLoding(false)
+      return;
+    }
     else if (formdata.body.length >= 500) {
       seterrorMsg('In body write words maximum 500')
       setLoding(false)
       return;
     }
-    else if (formdata.userId.length === 0) {
-      seterrorMsg('boday cannot b empty')
+
+    else if (formdata.userId.length ===0) {
+      seterrorMsg('User ID cannot empety');
       setLoding(false)
       return;
-
+      
     }
-    else if (formdata.userId.length === 0) {
-      seterrorMsg('boday cannot b empty')
-      setLoding(false)
-      return;
-
-    }
-    else if (!/^\d+$/.test(formdata.userId)) {
-      seterrorMsg('User ID cannot empety and should contain only numeric values');
+    else if (formdata.userId < 0) {
+      seterrorMsg('User ID should contain only numeric & values');
       setLoding(false)
       return;
       
@@ -71,15 +71,24 @@ export const MyForm = () => {
 
     console.log(formdata)
     axios.post(`https://jsonplaceholder.typicode.com/posts `, { formdata })
-
-      .then(response => console.log(' Scucess', response))
-      .catch(error => console.log(error))
+ 
+  
+      .then(response => {
+        setSubmitdata(response.data); // Set submitted data
+        setLoding(false);
+        // setformData({ title: '', body: '', userId: '' }); // Reset form data
+      })
+      .catch((error )=> {console.log(error);
+      })
+       
+        
       .finally(() => {
         setLoding(false)
         e.target.reset()
       })
 
-  }
+    }
+  
 
   if (loading) {
     return (
@@ -116,13 +125,7 @@ export const MyForm = () => {
           <textarea
             className='form-control'
             onChange={handlechange} name='userId'
-            onKeyPress={(e) => {
-              // Allow only numeric input
-              const charCode = e.charCode;
-              if (charCode !== 8 && charCode !== 0 && (charCode < 48 || charCode > 57)) {
-                e.preventDefault();
-              }
-            }}
+           
 
           />
           <button>Submit</button>
@@ -132,6 +135,15 @@ export const MyForm = () => {
 
 
         </form>
+         {/* Display submitted data if available */}
+      {submitdata && (
+        <div className="container card mt-4">
+          <strong>Submitted Data:</strong>
+          <p>Title: {submitdata.title}</p>
+          <p>Body: {submitdata.body}</p>
+          <p>User ID: {submitdata.userId}</p>
+        </div>
+      )}
 
       </div>
     </div>

@@ -11,18 +11,30 @@ const MyCard = () => {
     //withou axious
     //const [post, setPost] = useState(Mydata)
     // axios calling data
-    const [loading , setLoding] = useState(true)
+    const [start , setStart]=useState(0);
+    const [limit, setLimit]=useState(10);
+    const [loading , setLoading] = useState(true)
     const [post, setPost] = useState([]);
+
     useEffect(() => {
-        axios.get(`https://jsonplaceholder.typicode.com/posts`)
+        axios.get(`https://jsonplaceholder.typicode.com/posts?_start=${start}&_limit=${limit}`)
             .then((response) => {
-                setPost(response.data);
-                setLoding(false)
+                setPost(previouPost => previouPost.concat(response.data)); // Concatenating new data to previous data
+                setLoading(false);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [start, limit]);
+
+    const handleNextPage = () => {
+        setStart(start + limit);
+    }
+     
+   const  handelLimit =(e)=>{
+    setLimit(parseInt(e.target.value))
+    setStart(0)
+   } 
 
 
 
@@ -37,17 +49,31 @@ const MyCard = () => {
       )
      }
     return (
-        <>
-        <p className='container fluid'><Link to={`/AddList/id`}>Add post</Link></p>
-                
+        <div className='container fluid'>
+        <p ><Link to={`/AddList/id`}>Add post</Link></p>
+                <div>
+                    <select value={limit} onChange={handelLimit}>
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={30}>30</option>
+                        <option value={40}>40</option>
+                        <option value={50}>50</option>
+                        <option value={60}>60</option>
+                        <option value={70}>70</option>
+                        <option value={80}>80</option>
+                        <option value={90}>90</option>
+                        <option value={100}>100</option>
+
+                    </select>
+                </div>
        
             {post.map((index) => {
                 return (
                     <Mycofirmation index={index} post={post} setPost={setPost} />
                 )
             })}
-
-        </>
+           <button className='btn btn-primary' onClick={handleNextPage}>Next Post</button>
+           </div>
         
     )
 

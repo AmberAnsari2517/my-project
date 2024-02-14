@@ -1,21 +1,13 @@
-import React from 'react'
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 export const Myeditpost = () => {
-  const navigate = useNavigate()
-  const handleBack = () => {
-    navigate(-1)
-
-  }
-
-  const [errorMsg, setErrorMsg] = useState('')
-  const [loading, setLoding] = useState(true)
-  const [inputEditing, setinputEditing] = useState(false);
+  const [errorMsg, setErrorMsg] = useState();
+  const [loading, setLoading] = useState(true); // Initialize loading state to true
   const [editedData, setEditedData] = useState({ id: "", userId: '', title: '', body: '' });
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the post data from the server
@@ -24,140 +16,136 @@ export const Myeditpost = () => {
         const postData = response.data;
         // Set the fetched data into the state
         setEditedData(postData);
-        setLoding(false)
+        setLoading(false); // Set loading to false after successful data fetch
       })
       .catch((error) => {
         console.error('Error fetching post:', error);
+        setLoading(false); // Set loading to false if there's an error during data fetch
       });
   }, [id]);
-  //handle edit post
-  const handleEditToggle = () => {
-    setinputEditing(!inputEditing);
-  };
-  //post converting to input
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setEditedData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
+
   const handleSave = (e) => {
-   
-      e.preventDefault();
-    
-      // Validation
-      if (editedData.title.trim().length === 0 || editedData.title.trim().length <= 3) {
-        setErrorMsg('Title should be more than three characters');
-        return;
-         } else if (editedData.body.trim().length === 0 || editedData.body.trim().length >= 500) {
-        setErrorMsg('Body should contain maximum 500 characters');
-        return;
-      } else {
-        setErrorMsg('submit success');
-      }
-        // Reset error message if there are no validation errors
-      
-     
-    
-      // Perform save logic, update the post on the server
-      axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, editedData)
-        .then((response) => {
-          console.log('Post updated successfully:', response.data);
-          // Update the post in the local state
-          setinputEditing(false); // Exit edit mode
-          // You don't need to do anything with useParams(id) here, 
-          // as you're already updating the post with the correct id.
-        })
-        .catch((error) => {
-          console.error('Error updating post:', error);
-        });
-    };
-  
-  if (loading) {
-    return (
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border text-success" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-    )
-  }
+    e.preventDefault();
+    setLoading(true); // Set loading to true when save button is clicked
+
+    // Validation
+    if (editedData.title.trim().length === 0 || editedData.title.trim().length <= 3) {
+      setErrorMsg('Title should be more than three characters');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else if (editedData.body.trim().length === 0 || editedData.body.trim().length <= 3) {
+      setErrorMsg('Body should contain minimum three characters');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else if (editedData.body.trim().length >= 500) {
+      setErrorMsg('Body should contain maximum 500 characters');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else if (editedData.userId.length === 0) {
+      setErrorMsg('UserId should be a must not empty');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else if (editedData.id.length === 0) {
+      setErrorMsg('ID should be a must not empty');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else if (editedData.id <= 0) {
+      setErrorMsg('ID should be a positive number not a negative number');
+      setLoading(false); // Set loading to false when validation fails
+      return;
+    } else {
+      setErrorMsg('submit success');
+    }
+
+    // Perform save logic, update the post on the server
+    axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, editedData)
+      .then((response) => {
+        console.log('Post updated successfully:', response.data);
+        setLoading(false); // Set loading to false after successful update
+        // Navigate back to the main post page
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error updating post:', error);
+        setLoading(false); // Set loading to false if there's an error during update
+      });
+  };
+
   return (
     <div className="container">
-      <div style={{ marginBottom: 10 }}>
-
-        <button className='btn btn-success' onClick={handleBack}>
-          <i class="fa-solid fa-arrow-left" ></i>
-        </button>
-      </div>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card my-3">
-            <div className="card-body">
-              {/* if condition */}
-              {inputEditing ? (
-
-
-                <>
-                  <h3>Edit Post</h3>
-                  <div className="mb-3">
-                    <label htmlFor="editedTitle" className="form-label">Title:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="editedTitle"
-                      name="title"
-                      value={editedData.title}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="editedBody" className="form-label">Body:</label>
-                    <textarea
-                      className="form-control"
-                      id="editedBody"
-                      name="body"
-                      value={editedData.body}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="editedBody" className="form-label">Id:</label>
-                    <textarea
-                      className="form-control"
-                      id="editid"
-                      name="id"
-                      value={editedData.id}
-                      onChange={handleInputChange}
-                      onKeyPress={(e) => {
-                        // Allow only numeric input
-                        const charCode = e.charCode;
-                        if (charCode !== 8 && charCode !== 0 && (charCode < 48 || charCode > 57)) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                    
-                  </div>
-                  <button className="btn btn-primary" onClick={handleSave}>Save</button>
-                  <strong>{errorMsg}</strong>
-
-
-                </>
-              ) : (
-                <>
-                  {/* Display fetched data */}
-                  <h1>Title:</h1><p>{editedData.title}</p>
-                  <p><h3>Body:</h3>{editedData.body}</p>
-                  <p><h3>Id:</h3>{editedData.id}</p>
-                  <button className="btn btn-primary" onClick={() => handleEditToggle((!inputEditing))}>Edit</button>
-                </>
-              )}
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only"></span>
+          </div>
+        </div>
+      ) : (
+        <div className="row">
+          <div className="col-md-12">
+            <div className="card my-3">
+              <div className="card-body">
+                <h3>Edit Post</h3>
+                <div className="mb-3">
+                  <label htmlFor="editedTitle" className="form-label">Title:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="editedTitle"
+                    name="title"
+                    value={editedData.title}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="editedBody" className="form-label">Body:</label>
+                  <textarea
+                    className="form-control"
+                    id="editedBody"
+                    name="body"
+                    value={editedData.body}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="editedUserId" className="form-label">User ID:</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="editedUserId"
+                    name="userId"
+                    value={editedData.userId}
+                    onChange={handleInputChange}
+                    onKeyDown={(e) => e.key === 'e' && e.preventDefault()} // Prevent 'e' key
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="editedId" className="form-label">ID:</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="editedId"
+                    name="id"
+                    value={editedData.id}
+                    onChange={handleInputChange}
+                    onKeyDown={(e) => e.key === 'e' && e.preventDefault()} // Prevent 'e' key
+                  />
+                </div>
+                <button className="btn btn-primary" onClick={handleSave}>Save</button>
+                <p>{errorMsg}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
-}
+};
